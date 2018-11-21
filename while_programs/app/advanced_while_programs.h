@@ -24,6 +24,7 @@ Program while_sum(std::size_t n);
 // MULTIPLICATION
 
 Program while_multiply();
+Program while_product(std::size_t n);
 
 // -------------------------------------------------------
 // CONSTANTS
@@ -49,7 +50,8 @@ private:
 };
 
 // Write constant programs
-Program while_write_constant_sequentually(Nat n);
+Program while_write_constant_sequentially(Nat n);
+Program while_constant_from_factors(const std::vector<Nat>& factors);
 Program while_write_constant_from_base_b_rep(const BaseBRepresentation& rep);
 
 // -------------------------------------------------------

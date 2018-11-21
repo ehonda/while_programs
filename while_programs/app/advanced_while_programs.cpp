@@ -72,13 +72,66 @@ Program while_sum(std::size_t n) {
 // MULTIPLICATION
 
 Program while_multiply() {
-	const auto add_and_move_from_2
+	/*const auto add_and_move_from_2
 		= while_add_and_move(0, 2, 3);
 	const auto add_and_move_from_3
 		= while_add_and_move(0, 3, 2);
 	const auto add_from_2_or_3
 		= IfZ(3, add_and_move_from_2, add_and_move_from_3);
-	return While(1, Seq(Dec(1), add_from_2_or_3));
+	return While(1, Seq(Dec(1), add_from_2_or_3));*/
+	return while_product(2);
+}
+
+// While product implementation
+namespace {
+
+Program while_product_impl_dec_and_store_level(std::size_t level,
+	std::size_t last_level)
+{
+	const auto level_copy_register = last_level + level;
+	return Seq(Dec(level), Inc(level_copy_register));
+}
+
+Program while_product_impl_restore_level(std::size_t level,
+	std::size_t last_level) 
+{
+	const auto level_copy_register = last_level + level;
+	return while_add_and_erase(level, level_copy_register);
+}
+
+Program while_product_impl(std::size_t level, std::size_t last_level) {
+	Listing body;
+
+	// First level doesn't need to store level
+	if (level == 1)
+		body.push_back(Dec(level));
+	else
+		body.push_back(while_product_impl_dec_and_store_level(level, last_level));
+
+	// Outer levels recurse and restore next level
+	if (level < last_level) {
+		body.push_back(while_product_impl(level + 1, last_level));
+		body.push_back(while_product_impl_restore_level(level + 1, last_level));
+	}
+	// Last level performs add and move
+	else {
+		const auto add_from_original
+			= while_add_and_move(0, level, level + 1);
+		const auto add_from_copy
+			= while_add_and_move(0, level + 1, level);
+		return IfZ(level + 1, add_from_original, add_from_copy);
+	}
+
+	return While(level, make_sequence(body));
+}
+
+}
+
+Program while_product(std::size_t n) {
+	if (n == 0)
+		return Skip();
+	else
+		return while_product_impl(1, n);
 }
 
 // -------------------------------------------------------
@@ -132,20 +185,24 @@ const BaseBRepresentation::LittleEndianRepresentation&
 }
 
 // Write constant programs
-Program while_write_constant_sequentually(Nat n) {
+Program while_write_constant_sequentially(Nat n) {
 	const auto add_1 = Inc(0);
 	if (n > 1)
-		return Seq(add_1, while_write_constant_sequentually(n - 1));
+		return Seq(add_1, while_write_constant_sequentially(n - 1));
 	else if (n == 1)
 		return add_1;
 	else
 		return Skip();
 }
 
+Program while_constant_from_factors(const std::vector<Nat>& factors)
+{
+	return Program();
+}
+
 // Write constant from base b implementation
 namespace {
 
-// Uses little endian rep
 Program constant_from_base_b_body(std::size_t level, 
 	const BaseBRepresentation& base_b_rep)
 {

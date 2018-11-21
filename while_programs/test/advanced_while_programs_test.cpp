@@ -64,6 +64,18 @@ TEST_F(AdvancedWhileProgramsTest, while_multiply_test) {
 	expectMemory({ 6, 0, 0 });
 }
 
+TEST_F(AdvancedWhileProgramsTest, while_product_test) {
+	mem_ = getInputMemory({ 3, 2, 3 });
+	const auto p = while_product(3);
+	p(mem_);
+	expectMemory({ 18 });
+
+	mem_ = getInputMemory({ 2, 2, 2, 2, 2 });
+	const auto q = while_product(5);
+	q(mem_);
+	expectMemory({ 32 });
+}
+
 // -------------------------------------------------------
 // CONSTANTS
 
@@ -86,9 +98,13 @@ TEST_F(AdvancedWhileProgramsTest, base_b_little_endian_rep) {
 
 // Write constants
 TEST_F(AdvancedWhileProgramsTest, while_constant_seq_test) {
-	const auto p = while_write_constant_sequentually(5);
+	const auto p = while_write_constant_sequentially(5);
 	p(mem_);
 	expectMemory({ 5 });
+}
+
+TEST_F(AdvancedWhileProgramsTest, while_constant_from_factors) {
+
 }
 
 TEST_F(AdvancedWhileProgramsTest, while_constant_base_b_test) {

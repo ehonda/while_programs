@@ -84,7 +84,12 @@ void print_112_in_different_bases() {
 }
 
 int main(int argc, char** argv) {
-	print_112_in_different_bases();
+	using namespace while_programs;
+	//print_112_in_different_bases();
+
+	const auto p = while_multiply();
+	std::cout << p << std::endl;
+
 	block();
 	return 0;
 }
