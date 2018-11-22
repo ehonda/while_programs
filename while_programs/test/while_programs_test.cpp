@@ -100,4 +100,13 @@ TEST_F(WhileProgramsTest, elementary_program_while) {
 	EXPECT_EQ(mem_.get(1), 0);
 }
 
+TEST_F(WhileProgramsTest, elementary_program_loop) {
+	mem_ = getInputMemory({ 5 });
+
+	const auto p = Loop(1, Loop(1, Inc(0)));
+	p(mem_);
+	EXPECT_EQ(mem_.get(0), 25);
+	EXPECT_EQ(mem_.get(1), 5);
+}
+
 }

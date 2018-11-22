@@ -60,6 +60,8 @@ Program Dec(RegisterIndex i);
 Program Seq(const Program& p, const Program& q);
 Program IfZ(RegisterIndex i, const Program& p, const Program& q);
 Program While(RegisterIndex i, const Program& p);
+// Not technically while-program
+Program Loop(RegisterIndex i, const Program& p);
 
 // -------------------------------------------------------
 

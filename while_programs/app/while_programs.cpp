@@ -134,6 +134,20 @@ Program While(RegisterIndex i, const Program& p) {
 	return Program(action, desc, size);
 }
 
+Program Loop(RegisterIndex i, const Program& p) {
+	const auto action =
+		[i, p](RegisterMemory& m) {
+			const auto r_i = m.get(i);
+			for (Nat n = Nat(0); n < r_i; ++n)
+				p(m);
+		};
+	const auto desc =
+		"Loop " + std::to_string(i) + " (" + p.getDesc() + ")";
+	const std::size_t size = 1u + p.getSize();
+
+	return Program(action, desc, size);
+}
+
 // -------------------------------------------------------
 
 }

@@ -7,6 +7,13 @@
 namespace while_programs {
 
 // -------------------------------------------------------
+// UTILITY
+
+using Listing = std::vector<Program>;
+
+Program make_sequence(const Listing& listing);
+
+// -------------------------------------------------------
 // ADDITION
 
 // Basic add functionality
@@ -15,6 +22,9 @@ Program while_add_and_move(RegisterIndex add_to, RegisterIndex move_from,
 	RegisterIndex move_to);
 Program while_add_and_restore(RegisterIndex add_to, RegisterIndex add_from,
 	RegisterIndex restore_from);
+
+// Increment constant amount
+Program while_inc_n(RegisterIndex target, Nat n);
 
 // Sum functions
 Program while_plus();
@@ -52,7 +62,15 @@ private:
 // Write constant programs
 Program while_write_constant_sequentially(Nat n);
 Program while_constant_from_factors(const std::vector<Nat>& factors);
-Program while_write_constant_from_base_b_rep(const BaseBRepresentation& rep);
+Program while_write_constant_from_base_b_rep(const BaseBRepresentation& rep,
+	RegisterIndex target = 0);
+Program while_write_constant_by_bitshift(const BaseBRepresentation& rep);
+
+// -------------------------------------------------------
+// LOOP
+
+// Executes p m[i]^n times
+Program loop_program_power(RegisterIndex i, Nat n, const Program& p);
 
 // -------------------------------------------------------
 

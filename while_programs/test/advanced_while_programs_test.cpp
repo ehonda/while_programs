@@ -40,6 +40,12 @@ TEST_F(AdvancedWhileProgramsTest, while_add_and_restore_test) {
 	expectMemory({ 3, 3, 0 });
 }
 
+TEST_F(AdvancedWhileProgramsTest, while_inc_n_test) {
+	const auto p = while_inc_n(0, 5);
+	p(mem_);
+	expectMemory({ 5 });
+}
+
 TEST_F(AdvancedWhileProgramsTest, while_plus) {
 	mem_ = getInputMemory({ 3, 2 });
 	const auto p = while_plus();
@@ -132,6 +138,22 @@ TEST_F(AdvancedWhileProgramsTest, while_constant_base_b_test) {
 			{ 7, { 2, 6, 2, 6} });
 	p_7_1000(mem_);
 	expectMemory({ 1000 });
+}
+
+//TEST_F(AdvancedWhileProgramsTest, while_constant_bitshift_test) {
+//	// 1100_2 = 12
+//	const auto p_12
+//		= while_write_constant_by_bitshift(
+//			{ 2, {1, 1, 0, 0} });
+//	p_12(mem_);
+//	expectMemory({ 12 });
+//}
+
+TEST_F(AdvancedWhileProgramsTest, loop_program_power_test) {
+	mem_ = getInputMemory({ 3 });
+	const auto p = loop_program_power(1, 3, Inc(0));
+	p(mem_);
+	expectMemory({ 27, 3 });
 }
 
 // -------------------------------------------------------
